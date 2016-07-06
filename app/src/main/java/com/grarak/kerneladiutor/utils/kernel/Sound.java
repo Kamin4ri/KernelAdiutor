@@ -30,180 +30,208 @@ import java.util.List;
  */
 public class Sound implements Constants {
 
-    private static String SPEAKER_GAIN_FILE;
+	private static String SPEAKER_GAIN_FILE;
 
-    public static void setVolumeGain(String value, Context context) {
-        Control.runCommand(value, VOLUME_BOOST, Control.CommandType.GENERIC, context);
-    }
+	public static void setVolumeGain(String value, Context context) {
+		Control.runCommand(value, VOLUME_BOOST, Control.CommandType.GENERIC, context);
+	}
 
-    public static String getVolumeGain() {
-        return Utils.readFile(VOLUME_BOOST);
-    }
+	public static String getVolumeGain() {
+		return Utils.readFile(VOLUME_BOOST);
+	}
 
-    public static List<String> getVolumeGainLimits() {
-        return getFrancoSoundLimits();
-    }
+	public static List<String> getVolumeGainLimits() {
+		return getFrancoSoundLimits();
+	}
 
-    public static boolean hasVolumeGain() {
-        return Utils.existFile(VOLUME_BOOST);
-    }
+	public static boolean hasVolumeGain() {
+		return Utils.existFile(VOLUME_BOOST);
+	}
 
-    public static void setMicrophoneGain(String value, Context context) {
-        Control.runCommand(value, MIC_BOOST, Control.CommandType.GENERIC, context);
-    }
+	public static void setMicrophoneGain(String value, Context context) {
+		Control.runCommand(value, MIC_BOOST, Control.CommandType.GENERIC, context);
+	}
 
-    public static String getMicrophoneGain() {
-        return Utils.readFile(MIC_BOOST);
-    }
+	public static String getMicrophoneGain() {
+		return Utils.readFile(MIC_BOOST);
+	}
 
-    public static List<String> getMicrophoneGainLimits() {
-        return getFrancoSoundLimits();
-    }
+	public static List<String> getMicrophoneGainLimits() {
+		return getFrancoSoundLimits();
+	}
 
-    public static boolean hasMicrophoneGain() {
-        return Utils.existFile(MIC_BOOST);
-    }
+	public static boolean hasMicrophoneGain() {
+		return Utils.existFile(MIC_BOOST);
+	}
 
-    public static void setHeadphonePowerAmpGain(String value, Context context) {
-        Control.runCommand(value + " " + value, HEADPHONE_POWERAMP_GAIN, Control.CommandType.FAUX_GENERIC, context);
-    }
+	public static void setHeadphonePowerAmpGain(String value, Context context) {
+		Control.runCommand(value + " " + value, HEADPHONE_POWERAMP_GAIN, Control.CommandType.FAUX_GENERIC, context);
+	}
 
-    public static String getCurHeadphonePowerAmpGain() {
-        return Utils.readFile(HEADPHONE_POWERAMP_GAIN).split(" ")[0];
-    }
+	public static String getCurHeadphonePowerAmpGain() {
+		return String.valueOf(38 - Integer.parseInt(Utils.readFile(HEADPHONE_POWERAMP_GAIN).split(" ")[0]));
+	}
 
-    public static List<String> getHeadphonePowerAmpGainLimits() {
-        List<String> list = new ArrayList<>();
-        for (int i = -6; i < 7; i++)
-            list.add(String.valueOf(i));
-        return list;
-    }
+	public static List<String> getHeadphonePowerAmpGainLimits() {
+		List<String> list = new ArrayList<>();
+		for (int i = -6; i < 7; i++)
+			list.add(String.valueOf(i));
+		return list;
+	}
 
-    public static boolean hasHeadphonePowerAmpGain() {
-        return Utils.existFile(HEADPHONE_POWERAMP_GAIN);
-    }
+	public static boolean hasHeadphonePowerAmpGain() {
+		return Utils.existFile(HEADPHONE_POWERAMP_GAIN);
+	}
 
-    public static void setSpeakerGain(String value, Context context) {
-        Control.runCommand(value + " " + value, SPEAKER_GAIN_FILE,
-                SPEAKER_GAIN_FILE.equals(SPEAKER_GAIN) ? Control.CommandType.FAUX_GENERIC : Control.CommandType.GENERIC, context);
-    }
+	public static void setSpeakerGain(String value, Context context) {
+		Control.runCommand(value + " " + value, SPEAKER_GAIN_FILE,
+				SPEAKER_GAIN_FILE.equals(SPEAKER_GAIN) ? Control.CommandType.FAUX_GENERIC : Control.CommandType.GENERIC, context);
+	}
 
-    public static String getCurSpeakerGain() {
-        switch (SPEAKER_GAIN_FILE) {
-            case SPEAKER_GAIN:
-                return Utils.readFile(SPEAKER_GAIN).split(" ")[0];
-            case SPEAKER_BOOST:
-                return Utils.readFile(SPEAKER_BOOST);
-        }
-        return null;
-    }
+	public static String getCurSpeakerGain() {
+		switch (SPEAKER_GAIN_FILE) {
+			case SPEAKER_GAIN:
+				int gain = Integer.parseInt(Utils.readFile(SPEAKER_GAIN).split(" ")[0]);
+				if (gain >= 0 && gain <= 20) {
+					return String.valueOf(gain);
+				} else if (gain >= 226 && gain <= 255) {
+					gain -= 256;
+					return String.valueOf(gain);
+				}
+				break;
+			case SPEAKER_BOOST:
+				return Utils.readFile(SPEAKER_BOOST);
+		}
+		return null;
+	}
 
-    public static List<String> getSpeakerGainLimits() {
-        switch (SPEAKER_GAIN_FILE) {
-            case SPEAKER_GAIN:
-                return getHeadphoneGainLimits();
-            case SPEAKER_BOOST:
-                return getFrancoSoundLimits();
-        }
-        return null;
-    }
+	public static List<String> getSpeakerGainLimits() {
+		switch (SPEAKER_GAIN_FILE) {
+			case SPEAKER_GAIN:
+				return getHeadphoneGainLimits();
+			case SPEAKER_BOOST:
+				return getFrancoSoundLimits();
+		}
+		return null;
+	}
 
-    public static boolean hasSpeakerGain() {
-        for (String file : SPEAKER_GAIN_ARRAY)
-            if (Utils.existFile(file)) {
-                SPEAKER_GAIN_FILE = file;
-                return true;
-            }
-        return false;
-    }
+	public static boolean hasSpeakerGain() {
+		for (String file : SPEAKER_GAIN_ARRAY)
+			if (Utils.existFile(file)) {
+				SPEAKER_GAIN_FILE = file;
+				return true;
+			}
+		return false;
+	}
 
-    public static List<String> getFrancoSoundLimits() {
-        List<String> list = new ArrayList<>();
-        for (int i = -20; i < 21; i++)
-            list.add(String.valueOf(i));
-        return list;
-    }
+	public static List<String> getFrancoSoundLimits() {
+		List<String> list = new ArrayList<>();
+		for (int i = -20; i < 21; i++)
+			list.add(String.valueOf(i));
+		return list;
+	}
 
-    public static void setCamMicrophoneGain(String value, Context context) {
-        Control.runCommand(value, CAM_MICROPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
-    }
+	public static void setCamMicrophoneGain(String value, Context context) {
+		Control.runCommand(value, CAM_MICROPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
+	}
 
-    public static String getCurCamMicrophoneGain() {
-        return Utils.readFile(CAM_MICROPHONE_GAIN);
-    }
+	public static String getCurCamMicrophoneGain() {
+		String strGain = Utils.readFile(CAM_MICROPHONE_GAIN);
+		int gain = Integer.parseInt(strGain);
+		if (gain >= 0 && gain <= 20) {
+			gain += 0;
+		} else if (gain >= 226 && gain <= 255) {
+			gain -= 256;
+		}
+		return String.valueOf(gain);
+	}
 
-    public static List<String> getCamMicrophoneGainLimits() {
-        return getHeadphoneGainLimits();
-    }
+	public static List<String> getCamMicrophoneGainLimits() {
+		return getHeadphoneGainLimits();
+	}
 
-    public static boolean hasCamMicrophoneGain() {
-        return Utils.existFile(CAM_MICROPHONE_GAIN);
-    }
+	public static boolean hasCamMicrophoneGain() {
+		return Utils.existFile(CAM_MICROPHONE_GAIN);
+	}
 
-    public static void setHandsetMicrophoneGain(String value, Context context) {
-        Control.runCommand(value, HANDSET_MICROPONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
-    }
+	public static void setHandsetMicrophoneGain(String value, Context context) {
+		Control.runCommand(value, HANDSET_MICROPONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
+	}
 
-    public static String getCurHandsetMicrophoneGain() {
-        return Utils.readFile(HANDSET_MICROPONE_GAIN);
-    }
+	public static String getCurHandsetMicrophoneGain() {
+		String strGain = Utils.readFile(HANDSET_MICROPHONE_GAIN);
+		int gain = Integer.parseInt(strGain);
+		if (gain >= 0 && gain <= 20) {
+			gain += 0;
+		} else if (gain >= 226 && gain <= 255) {
+			gain -= 256;
+		}
+		return String.valueOf(gain);
+	}
 
-    public static List<String> getHandsetMicrophoneGainLimits() {
-        return getHeadphoneGainLimits();
-    }
+	public static List<String> getHandsetMicrophoneGainLimits() {
+		return getHeadphoneGainLimits();
+	}
 
-    public static boolean hasHandsetMicrophoneGain() {
-        return Utils.existFile(HANDSET_MICROPONE_GAIN);
-    }
+	public static boolean hasHandsetMicrophoneGain() {
+		return Utils.existFile(HANDSET_MICROPONE_GAIN);
+	}
 
-    public static void setHeadphoneGain(String value, Context context) {
-        Control.runCommand(value + " " + value, HEADPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
-    }
+	public static void setHeadphoneGain(String value, Context context) {
+		Control.runCommand(value + " " + value, HEADPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
+	}
 
-    public static String getCurHeadphoneGain() {
-        return Utils.readFile(HEADPHONE_GAIN).split(" ")[0];
-    }
+	public static String getCurHeadphoneGain() {
+		String strGain = Utils.readFile(HEADPHONE_GAIN).split(" ")[0];
+		int gain = Integer.parseInt(strGain);
+		if (gain >= 0 && gain <= 20) {
+			gain += 0;
+		} else if (gain >= 226 && gain <= 255) {
+			gain -= 256;
+		}
+		return String.valueOf(gain);
+	}
 
-    public static List<String> getHeadphoneGainLimits() {
-        List<String> list = new ArrayList<>();
-        for (int i = -30; i < 21; i++)
-            list.add(String.valueOf(i));
-        return list;
-    }
+	public static List<String> getHeadphoneGainLimits() {
+		List<String> list = new ArrayList<>();
+		for (int i = -30; i < 21; i++)
+			list.add(String.valueOf(i));
+		return list;
+	}
 
-    public static boolean hasHeadphoneGain() {
-        return Utils.existFile(HEADPHONE_GAIN);
-    }
+	public static boolean hasHeadphoneGain() {
+		return Utils.existFile(HEADPHONE_GAIN);
+	}
 
-    public static void activateHighPerfMode(boolean active, Context context) {
-        Control.runCommand(active ? "1" : "0", HIGHPERF_MODE_ENABLE, Control.CommandType.GENERIC, context);
-    }
+	public static void activateHighPerfMode(boolean active, Context context) {
+		Control.runCommand(active ? "1" : "0", HIGHPERF_MODE_ENABLE, Control.CommandType.GENERIC, context);
+	}
 
-    public static boolean isHighPerfModeActive() {
-        return Utils.readFile(HIGHPERF_MODE_ENABLE).equals("1");
-    }
+	public static boolean isHighPerfModeActive() {
+		return Utils.readFile(HIGHPERF_MODE_ENABLE).equals("1");
+	}
 
-    public static boolean hasHighPerfModeEnable() {
-        return Utils.existFile(HIGHPERF_MODE_ENABLE);
-    }
+	public static boolean hasHighPerfModeEnable() {
+		return Utils.existFile(HIGHPERF_MODE_ENABLE);
+	}
 
-    public static void activateSoundControl(boolean active, Context context) {
-        Control.runCommand(active ? "Y" : "N", SOUND_CONTROL_ENABLE, Control.CommandType.GENERIC, context);
-    }
+	public static void activateSoundControl(boolean active, Context context) {
+		Control.runCommand(active ? "Y" : "N", SOUND_CONTROL_ENABLE, Control.CommandType.GENERIC, context);
+	}
 
-    public static boolean isSoundControlActive() {
-        return Utils.readFile(SOUND_CONTROL_ENABLE).equals("Y");
-    }
+	public static boolean isSoundControlActive() {
+		return Utils.readFile(SOUND_CONTROL_ENABLE).equals("Y");
+	}
 
-    public static boolean hasSoundControlEnable() {
-        return Utils.existFile(SOUND_CONTROL_ENABLE);
-    }
+	public static boolean hasSoundControlEnable() {
+		return Utils.existFile(SOUND_CONTROL_ENABLE);
+	}
 
-    public static boolean hasSound() {
-        for (String[] array : SOUND_ARRAY)
-            for (String file : array)
-                if (Utils.existFile(file)) return true;
-        return false;
-    }
+	public static boolean hasSound() {
+		for (String[] array : SOUND_ARRAY)
+			for (String file : array)
+				if (Utils.existFile(file)) return true;
+		return false;
+	}
 
 }
