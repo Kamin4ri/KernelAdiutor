@@ -94,7 +94,7 @@ public class Sound implements Constants {
 				Control.runCommand(value + " " + value, SPEAKER_GAIN, Control.CommandType.FAUX_GENERIC, context);
 			}			
 		} else {
-			Control.runCommand(value + " " + value, SPEAKER_GAIN_FILE, Control.CommandType.GENERIC, context)
+			Control.runCommand(value + " " + value, SPEAKER_GAIN_FILE, Control.CommandType.GENERIC, context);
 		}
 	}
 
