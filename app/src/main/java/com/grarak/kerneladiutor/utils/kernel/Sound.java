@@ -155,7 +155,7 @@ public class Sound implements Constants {
 	}
 
 	public static void setHandsetMicrophoneGain(String value, Context context) {
-		Control.runCommand(value, HANDSET_MICROPONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
+		Control.runCommand(value, HANDSET_MICROPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
 	}
 
 	public static String getCurHandsetMicrophoneGain() {
@@ -174,7 +174,7 @@ public class Sound implements Constants {
 	}
 
 	public static boolean hasHandsetMicrophoneGain() {
-		return Utils.existFile(HANDSET_MICROPONE_GAIN);
+		return Utils.existFile(HANDSET_MICROPHONE_GAIN);
 	}
 
 	public static void setHeadphoneGain(String value, Context context) {
