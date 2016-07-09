@@ -88,12 +88,12 @@ public class Sound implements Constants {
 	public static void setSpeakerGain(String value, Context context) {
 		if (SPEAKER_GAIN_FILE.equals(SPEAKER_GAIN)) {
 			int newGain = Integer.parseInt(value);
-			if (newGain >= -30 && newGain <= -1) {
+			if (newGain >= 0 && newGain <= 20) {
+				Control.runCommand(value + " " + value, SPEAKER_GAIN, Control.CommandType.FAUX_GENERIC, context);
+			} else if (newGain >= -30 && newGain <= -1) {
 				value = String.valueOf(newGain + 256);
 				Control.runCommand(value + " " + value, SPEAKER_GAIN, Control.CommandType.FAUX_GENERIC, context);
-			} else if (newGain >= 1 && newGain <= 20) {
-				Control.runCommand(value + " " + value, SPEAKER_GAIN, Control.CommandType.FAUX_GENERIC, context);
-			}			
+			}
 		} else {
 			Control.runCommand(value + " " + value, SPEAKER_GAIN_FILE, Control.CommandType.GENERIC, context);
 		}
@@ -106,8 +106,7 @@ public class Sound implements Constants {
 				if (gain >= 0 && gain <= 20) {
 					return String.valueOf(gain);
 				} else if (gain >= 226 && gain <= 255) {
-					gain -= 256;
-					return String.valueOf(gain);
+					return String.valueOf(gain - 256);
 				}
 				break;
 			case SPEAKER_BOOST:
@@ -144,23 +143,24 @@ public class Sound implements Constants {
 
 	public static void setCamMicrophoneGain(String value, Context context) {
 		int newGain = Integer.parseInt(value);
-		if (newGain >= -30 && newGain <= -1) {
+		if (newGain >= 0 && newGain <= 20) {
+			Control.runCommand(value, CAM_MICROPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
+		} else if (newGain >= -30 && newGain <= -1) {
 			value = String.valueOf(newGain + 256);
 			Control.runCommand(value, CAM_MICROPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
-		} else if (newGain >= 1 && newGain <= 20) {
-			Control.runCommand(value, CAM_MICROPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
-		}
+		}		
 	}
 
 	public static String getCurCamMicrophoneGain() {
 		String strGain = Utils.readFile(CAM_MICROPHONE_GAIN);
 		int gain = Integer.parseInt(strGain);
 		if (gain >= 0 && gain <= 20) {
-			gain += 0;
+			return String.valueOf(gain);
 		} else if (gain >= 226 && gain <= 255) {
-			gain -= 256;
+			return String.valueOf(gain - 256);
 		}
-		return String.valueOf(gain);
+		
+		return null;
 	}
 
 	public static List<String> getCamMicrophoneGainLimits() {
@@ -173,23 +173,24 @@ public class Sound implements Constants {
 
 	public static void setHandsetMicrophoneGain(String value, Context context) {
 		int newGain = Integer.parseInt(value);
-		if (newGain >= -30 && newGain <= -1) {
+		if (newGain >= 0 && newGain <= 20) {
+			Control.runCommand(value, HANDSET_MICROPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
+		} else if (newGain >= -30 && newGain <= -1) {
 			value = String.valueOf(newGain + 256);
 			Control.runCommand(value, HANDSET_MICROPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
-		} else if (newGain >= 1 && newGain <= 20) {
-			Control.runCommand(value, HANDSET_MICROPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
-		}
+		}			
 	}
 
 	public static String getCurHandsetMicrophoneGain() {
 		String strGain = Utils.readFile(HANDSET_MICROPHONE_GAIN);
 		int gain = Integer.parseInt(strGain);
 		if (gain >= 0 && gain <= 20) {
-			gain += 0;
+			return String.valueOf(gain);
 		} else if (gain >= 226 && gain <= 255) {
-			gain -= 256;
+			return String.valueOf(gain - 256);
 		}
-		return String.valueOf(gain);
+		
+		return null;
 	}
 
 	public static List<String> getHandsetMicrophoneGainLimits() {
@@ -202,23 +203,24 @@ public class Sound implements Constants {
 
 	public static void setHeadphoneGain(String value, Context context) {
 		int newGain = Integer.parseInt(value);
-		if (newGain >= -30 && newGain <= -1) {
+		if (newGain >= 0 && newGain <= 20) {
+			Control.runCommand(value + " " + value, HEADPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
+		} else if (newGain >= -30 && newGain <= -1) {
 			value = String.valueOf(newGain + 256);
 			Control.runCommand(value + " " + value, HEADPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
-		} else if (newGain >= 1 && newGain <= 20) {
-			Control.runCommand(value + " " + value, HEADPHONE_GAIN, Control.CommandType.FAUX_GENERIC, context);
-		}
+		}				
 	}
 
 	public static String getCurHeadphoneGain() {
 		String strGain = Utils.readFile(HEADPHONE_GAIN).split(" ")[0];
 		int gain = Integer.parseInt(strGain);
 		if (gain >= 0 && gain <= 20) {
-			gain += 0;
+			return String.valueOf(gain);
 		} else if (gain >= 226 && gain <= 255) {
-			gain -= 256;
+			return String.valueOf(gain - 256);
 		}
-		return String.valueOf(gain);
+		
+		return null;
 	}
 
 	public static List<String> getHeadphoneGainLimits() {
