@@ -666,6 +666,7 @@ public interface Constants {
 
     // Vibration
     String[] VIBRATION_ARRAY = {
+            "/sys/module/qpnp_vibrator/parameters/vib_voltage",
             "/sys/vibrator/pwmvalue",
             "/sys/class/timed_output/vibrator/amp",
             "/sys/class/timed_output/vibrator/level",
@@ -676,11 +677,11 @@ public interface Constants {
             "/sys/devices/virtual/timed_output/vibrator/voltage_level",
             "/sys/devices/virtual/timed_output/vibrator/pwm_value_1p",
             "/sys/devices/virtual/timed_output/vibrator/vmax_mv_strong",
-            "/sys/devices/virtual/timed_output/vibrator/vmax_mv",
-			"/sys/module/qpnp_vibrator/parameters/vib_voltage"
+            "/sys/devices/virtual/timed_output/vibrator/vmax_mv"
     };
 
     int[][] VIBRATION_MAX_MIN_ARRAY = {
+            {31, 12},
             {127, 0},
             {100, 0},
             {31, 12},
@@ -691,8 +692,7 @@ public interface Constants {
             {3199, 1200},
             {99, 53},
             {3596, 116}, // Needs VIB_LIGHT path
-            {3596, 116},
-            {31, 12}			
+            {3596, 116}
     };
 
     String VIB_LIGHT = "/sys/devices/virtual/timed_output/vibrator/vmax_mv_light";
