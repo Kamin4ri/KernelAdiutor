@@ -65,7 +65,8 @@ public class Sound implements Constants {
 	}
 
 	public static void setHeadphonePowerAmpGain(String value, Context context) {
-		int newGain = Integer.parseInt(value) + 38;
+		int newGain = 38 - Integer.parseInt(value);
+		value = String.valueOf(newGain);
 		Control.runCommand(value + " " + value, HEADPHONE_POWERAMP_GAIN, Control.CommandType.FAUX_GENERIC, context);
 	}
 
