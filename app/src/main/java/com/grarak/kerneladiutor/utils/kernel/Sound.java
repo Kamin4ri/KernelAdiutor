@@ -21,7 +21,7 @@ import android.content.Context;
 import com.grarak.kerneladiutor.utils.Constants;
 import com.grarak.kerneladiutor.utils.Utils;
 import com.grarak.kerneladiutor.utils.root.Control;
-import com.grarak.kerneladiutor.utils.root.RootUtils;
+import com.kerneladiutor.library.root.RootUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -236,23 +236,21 @@ public class Sound implements Constants {
     }
 
     public static void setHeadphoneTpa6165AmpGain(String value, Context context) {
-        int gain = Utils.strToInt(value) + 185;
-        Control.setPermission(TPA6165_HEADPHONE_AMP_GAIN, 222, context);
+        int gain = Integer.parseInt(value) + 185;
         Control.runCommand("0x07 0x" + Integer.toHexString(gain), TPA6165_HEADPHONE_AMP_GAIN, Control.CommandType.GENERIC, context);
     }
 
-    public static String getHeadphoneTpa6165AmpGain() {
+    public static String getCurHeadphoneTpa6165AmpGain() {
         String strGain = RootUtils.runCommand("cat " + TPA6165_REGISTERS + " | grep 0x7 | cut -c9-13");
         int gain = Integer.decode(strGain);
         return String.valueOf(gain);
     }
 
-    public static String getHeadphoneTpa6165AmpGainLimits() {
+    public static List<String> getHeadphoneTpa6165AmpGainLimits() {
         List<String> list = new ArrayList<>();
         for (int i = -24; i <= 6; i++) {
             list.add(String.valueOf(i));
         }
-
         return list;
     }
 
