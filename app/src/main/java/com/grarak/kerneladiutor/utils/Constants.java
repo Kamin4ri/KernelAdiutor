@@ -587,6 +587,8 @@ public interface Constants {
     String CAM_MICROPHONE_GAIN = "/sys/kernel/sound_control_3/gpl_cam_mic_gain";
     String SPEAKER_GAIN = "/sys/kernel/sound_control_3/gpl_speaker_gain";
     String HEADPHONE_POWERAMP_GAIN = "/sys/kernel/sound_control_3/gpl_headphone_pa_gain";
+    String TPA6165_HEADPHONE_AMP_GAIN = "/sys/kernel/debug/tpa6165/set_reg";
+    String TPA6165_REGISTERS = "/sys/kernel/debug/tpa6165/registers";
 
     String MIC_BOOST = "/sys/devices/virtual/misc/soundcontrol/mic_boost";
     String SPEAKER_BOOST = "/sys/devices/virtual/misc/soundcontrol/speaker_boost";

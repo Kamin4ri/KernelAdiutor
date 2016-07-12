@@ -38,6 +38,7 @@ public class SoundFragment extends RecyclerViewFragment implements
     private SeekBarCardView.DSeekBarCard mCamMicrophoneGainCard;
     private SeekBarCardView.DSeekBarCard mSpeakerGainCard;
     private SeekBarCardView.DSeekBarCard mHeadphonePowerAmpGainCard;
+    private SeekBarCardView.DSeekBarCard mHeadphoneTpa6165AmpGainCard;
     private SeekBarCardView.DSeekBarCard mMicrophoneGainCard;
     private SeekBarCardView.DSeekBarCard mVolumeGainCard;
 
@@ -52,6 +53,7 @@ public class SoundFragment extends RecyclerViewFragment implements
         if (Sound.hasCamMicrophoneGain()) camMicrophoneGainInit();
         if (Sound.hasSpeakerGain()) speakerGainInit();
         if (Sound.hasHeadphonePowerAmpGain()) headphonePowerAmpGainInit();
+        if (Sound.hasHeadphoneTpa6165AmpGain()) headphoneTpa6165AmpGainInit();
         if (Sound.hasMicrophoneGain()) microphoneGainInit();
         if (Sound.hasVolumeGain()) volumeGainInit();
     }
@@ -121,6 +123,16 @@ public class SoundFragment extends RecyclerViewFragment implements
         addView(mHeadphonePowerAmpGainCard);
     }
 
+    private void headphoneTpa6165AmpGainInit() {
+        mHeadphoneTpa6165AmpGainCard = new SeekBarCardView.DSeekBarCard(Sound.getHeadphoneTpa6165AmpGainLimits());
+        mHeadphoneTpa6165AmpGainCard.setTitle(getString(R.string.headphone_tpa6165_amp_gain));
+        mHeadphoneTpa6165AmpGainCard.setProgress(Sound.getHeadphoneTpa6165AmpGainLimits().indexOf(
+            Sound.getCurHeadphoneTpa6165AmpGain()));
+        mHeadphoneTpa6165AmpGainCard.setOnDSeekBarCardListener(this);
+
+        addView(mHeadphoneTpa6165AmpGainCard);
+    }
+
     private void microphoneGainInit() {
         mMicrophoneGainCard = new SeekBarCardView.DSeekBarCard(Sound.getMicrophoneGainLimits());
         mMicrophoneGainCard.setTitle(getString(R.string.microphone_gain));
@@ -163,6 +175,8 @@ public class SoundFragment extends RecyclerViewFragment implements
             Sound.setSpeakerGain(Sound.getSpeakerGainLimits().get(position), getActivity());
         else if (dSeekBarCard == mHeadphonePowerAmpGainCard)
             Sound.setHeadphonePowerAmpGain(Sound.getHeadphonePowerAmpGainLimits().get(position), getActivity());
+        else if (dSeekBarCard == mHeadphoneTpa6165AmpGainCard)
+            Sound.setHeadphoneTpa6165AmpGain(Sound.getHeadphoneTpa6165AmpGainLimits().get(position), getActivity());
         else if (dSeekBarCard == mMicrophoneGainCard)
             Sound.setMicrophoneGain(Sound.getMicrophoneGainLimits().get(position), getActivity());
         else if (dSeekBarCard == mVolumeGainCard)
