@@ -237,12 +237,13 @@ public class Sound implements Constants {
 
     public static void setHeadphoneTpa6165AmpGain(String value, Context context) {
         int gain = Integer.parseInt(value) + 185;
+		Control.runCommand("chmod 222 " + TPA6165_HEADPHONE_AMP_GAIN, TPA6165_HEADPHONE_AMP_GAIN, Control.CommandType.CUSTOM, context);
         Control.runCommand("0x07 0x" + Integer.toHexString(gain), TPA6165_HEADPHONE_AMP_GAIN, Control.CommandType.GENERIC, context);
     }
 
     public static String getCurHeadphoneTpa6165AmpGain() {
         String strGain = RootUtils.runCommand("cat " + TPA6165_REGISTERS + " | grep 0x7 | cut -c9-13");
-        int gain = Integer.decode(strGain);
+        int gain = Integer.decode(strGain) - 185;
         return String.valueOf(gain);
     }
 
