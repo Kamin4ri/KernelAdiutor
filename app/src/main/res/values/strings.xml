@@ -20,6 +20,7 @@
     <string name="ok">OK</string>
     <string name="unknown">Unknown</string>
 
+    <string name="license_invalid">Thanks for purchasing the donation app! Unfortunately license check failed. Please try again later. If it\'s still not working, please contact me.</string>
     <string name="pirated">Seems like the donation app wasn\'t purchased through Play Store! If you pirated it, then shame on you!</string>
     <string name="donate">Donate</string>
     <string name="donate_summary">This feature is only available when the donation app is installed! Don\'t worry though. Because this app is open source you can easily build it yourself and remove this check. But I hope you support developers anyway. Thanks for using Kernel Adiutor! Once you bought the donation app you have to restart Kernel Adiutor in order to enable all features.</string>
@@ -180,7 +181,7 @@
     <string name="input_interval">Input Interval</string>
     <string name="input_interval_summary">Minimum interval a CPU is boosted when input is detected.</string>
     <string name="input_boost_freq">Input Boost Frequency</string>
-    <string name="input_boost_freq_core">Input Boost Frequency Core %s</string>
+    <string name="input_boost_freq_core">Input Boost Frequency Core %d</string>
     <string name="input_boost_freq_summary">CPU frequency to be boosted to this frequency upon input detection.</string>
     <string name="wakeup_boost">Wakeup Boost</string>
     <string name="wakeup_boost_summary">Wakeup Boost is similar to input boost but it occurs when screen is turned on.</string>
@@ -801,6 +802,7 @@
     <string name="banner_resizer">Banner resizer</string>
     <string name="force_cards">Force cards</string>
     <string name="force_cards_summary">Use cards for items if possible.</string>
+    <string name="instant">Instant</string>
     <string name="five_sec">5 seconds</string>
     <string name="ten_sec">10 seconds</string>
     <string name="twenty_sec">20 seconds</string>

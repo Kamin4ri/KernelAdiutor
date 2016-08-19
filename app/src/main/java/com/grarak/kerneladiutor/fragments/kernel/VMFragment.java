@@ -34,7 +34,7 @@ import com.grarak.kerneladiutor.views.recyclerview.SeekBarView;
 import com.grarak.kerneladiutor.views.recyclerview.SwitchView;
 import com.grarak.kerneladiutor.views.recyclerview.TitleView;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +42,7 @@ import java.util.List;
  */
 public class VMFragment extends RecyclerViewFragment {
 
-    private HashMap<Integer, GenericSelectView> mVMs = new HashMap<>();
+    private List<GenericSelectView> mVMs = new ArrayList<>();
 
     @Override
     protected void init() {
@@ -73,7 +73,7 @@ public class VMFragment extends RecyclerViewFragment {
                 });
 
                 items.add(vm);
-                mVMs.put(i, vm);
+                mVMs.add(vm);
             }
         }
 
@@ -92,7 +92,7 @@ public class VMFragment extends RecyclerViewFragment {
         zram.setTitle(getString(R.string.disksize));
         zram.setSummary(getString(R.string.disksize_summary));
         zram.setUnit(getString(R.string.mb));
-        zram.setMax(1000);
+        zram.setMax(1024);
         zram.setOffset(10);
         zram.setProgress(ZRAM.getDisksize() / 10);
         zram.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
@@ -178,9 +178,9 @@ public class VMFragment extends RecyclerViewFragment {
         getHandler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                for (int position : mVMs.keySet()) {
-                    mVMs.get(position).setValue(VM.getValue(position));
-                    mVMs.get(position).setValueRaw(mVMs.get(position).getValue());
+                for (int i = 0; i < mVMs.size(); i++) {
+                    mVMs.get(i).setValue(VM.getValue(i));
+                    mVMs.get(i).setValueRaw(mVMs.get(i).getValue());
                 }
             }
         }, 250);
