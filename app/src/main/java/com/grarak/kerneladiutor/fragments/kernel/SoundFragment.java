@@ -115,6 +115,18 @@ public class SoundFragment extends RecyclerViewFragment {
         final CardView headphoneGain = new CardView(getActivity());
         headphoneGain.setTitle(getString(R.string.headphone_gain));
 
+        // Set this bool to false if it doesn't exist
+        if (!(Prefs.getBoolean("fauxsound_perchannel_hp_gain", false, getActivity()))) {
+        	Prefs.saveBoolean("fauxsound_perchannel_hp_gain", false, getActivity());
+        }
+
+        // Define the switch first
+        final SwitchView perChannelControls = new SwitchView();
+        perChannelControls.setTitle(getString(R.string.per_channel_controls));
+        perChannelControls.setSummary(getString(R.string.per_channel_controls_summary));
+        perChannelControls.setChecked(Prefs.getBoolean("fauxsound_perchannel_hp_gain", false, getActivity()));
+        headphoneGain.addItem(perChannelControls);
+
         // This seekbar controls gain either for all channels or for left channel only.
         // This is changed via Refresh.refresh().
         final SeekBarView gain1 = new SeekBarView();
@@ -135,15 +147,8 @@ public class SoundFragment extends RecyclerViewFragment {
             }
         });
 
-        final SwitchView perChannelControls = new SwitchView();
-        perChannelControls.setTitle(getString(R.string.per_channel_controls));
-        perChannelControls.setSummary(getString(R.string.per_channel_controls_summary));
-        perChannelControls.setChecked(Prefs.getBoolean("fauxsound_perchannel_hp_gain", false, getActivity()));
-        headphoneGain.addItem(perChannelControls);
-
         class Refresh {
             public void refresh (String type) {
-                boolean isSingleChannel = true;
 
                 switch (type) {
                     case "perchannel":
@@ -161,7 +166,6 @@ public class SoundFragment extends RecyclerViewFragment {
                             }
                         });
                         headphoneGain.addItem(gain2);
-                        isSingleChannel = false;
                         break;
                     case "single":
                         gain1.setTitle(getString(R.string.all_channels));
@@ -183,13 +187,7 @@ public class SoundFragment extends RecyclerViewFragment {
                         } catch (Throwable t) {
                             // Don't do anything
                         }
-                        isSingleChannel = true;
                         break;
-                }
-
-                if (!isSingleChannel) {
-                    headphoneGain.removeItem(perChannelControls);
-                    headphoneGain.addItem(perChannelControls);
                 }
             }
         }
@@ -259,6 +257,12 @@ public class SoundFragment extends RecyclerViewFragment {
         final CardView speakerGain = new CardView(getActivity());
         speakerGain.setTitle(getString(R.string.speaker_gain));
 
+        final SwitchView perChannelControls = new SwitchView();
+        perChannelControls.setTitle(getString(R.string.per_channel_controls));
+        perChannelControls.setSummary(getString(R.string.per_channel_controls_summary));
+        perChannelControls.setChecked(Prefs.getBoolean("fauxsound_perchannel_sp_gain", false, getActivity()));
+        speakerGain.addItem(perChannelControls);
+
         // Set this to false if it doesn't exist
         if (!(Prefs.getBoolean("fauxsound_perchannel_sp_gain", false, getActivity()))) {
             Prefs.saveBoolean("fauxsound_perchannel_sp_gain", false, getActivity());
@@ -284,16 +288,8 @@ public class SoundFragment extends RecyclerViewFragment {
             }
         });
 
-        final SwitchView perChannelControls = new SwitchView();
-        perChannelControls.setTitle(getString(R.string.per_channel_controls));
-        perChannelControls.setSummary(getString(R.string.per_channel_controls_summary));
-        perChannelControls.setChecked(Prefs.getBoolean("fauxsound_perchannel_sp_gain", false, getActivity()));
-        speakerGain.addItem(perChannelControls);
-
         class Refresh {
             public void refresh (String type) {
-                boolean isSingleChannel = true;
-
                 switch (type) {
                     case "perchannel":
                         gain1.setTitle(getString(R.string.left_channel));
@@ -310,7 +306,6 @@ public class SoundFragment extends RecyclerViewFragment {
                             }
                         });
                         speakerGain.addItem(gain2);
-                        isSingleChannel = false;
                         break;
                     case "single":
                         gain1.setTitle(getString(R.string.all_channels));
@@ -332,13 +327,7 @@ public class SoundFragment extends RecyclerViewFragment {
                         } catch (Throwable t) {
                             // Don't do anything
                         }
-                        isSingleChannel = true;
                         break;
-                }
-
-                if (!isSingleChannel) {
-                    speakerGain.removeItem(perChannelControls);
-                    speakerGain.addItem(perChannelControls);
                 }
             }
         }
@@ -369,6 +358,12 @@ public class SoundFragment extends RecyclerViewFragment {
         final CardView headphonePAGain = new CardView(getActivity());
         headphonePAGain.setTitle(getString(R.string.headphone_poweramp_gain));
 
+        final SwitchView perChannelControls = new SwitchView();
+        perChannelControls.setTitle(getString(R.string.per_channel_controls));
+        perChannelControls.setSummary(getString(R.string.per_channel_controls_summary));
+        perChannelControls.setChecked(Prefs.getBoolean("fauxsound_perchannel_hp_pa_gain", false, getActivity()));
+        headphonePAGain.addItem(perChannelControls);
+
         // Set this to false if it doesn't exist
         if (!(Prefs.getBoolean("fauxsound_perchannel_hp_pa_gain", false, getActivity()))) {
             Prefs.saveBoolean("fauxsound_perchannel_hp_pa_gain", false, getActivity());
@@ -394,16 +389,8 @@ public class SoundFragment extends RecyclerViewFragment {
             }
         });
 
-        final SwitchView perChannelControls = new SwitchView();
-        perChannelControls.setTitle(getString(R.string.per_channel_controls));
-        perChannelControls.setSummary(getString(R.string.per_channel_controls_summary));
-        perChannelControls.setChecked(Prefs.getBoolean("fauxsound_perchannel_hp_pa_gain", false, getActivity()));
-        headphonePAGain.addItem(perChannelControls);
-
         class Refresh {
             public void refresh (String type) {
-                boolean isSingleChannel = true;
-
                 switch (type) {
                     case "perchannel":
                         gain1.setTitle(getString(R.string.left_channel));
@@ -420,7 +407,6 @@ public class SoundFragment extends RecyclerViewFragment {
                             }
                         });
                         headphonePAGain.addItem(gain2);
-                        isSingleChannel = false;
                         break;
                     case "single":
                         gain1.setTitle(getString(R.string.all_channels));
@@ -442,13 +428,7 @@ public class SoundFragment extends RecyclerViewFragment {
                         } catch (Throwable t) {
                             // Don't do anything
                         }
-                        isSingleChannel = true;
                         break;
-                }
-
-                if (!isSingleChannel) {
-                    headphonePAGain.removeItem(perChannelControls);
-                    headphonePAGain.addItem(perChannelControls);
                 }
             }
         }
