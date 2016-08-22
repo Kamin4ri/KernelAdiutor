@@ -1,31 +1,28 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="swirl_ridgeColor">?android:attr/textColorSecondary</item>
-        <item name="swirl_errorColor">@color/colorAccent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="discreteSeekBarStyle">@style/Widget.DiscreteSeekBar</item>
+        <item name="banner_frame_drawable">@drawable/drawable_frame_light</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/textcolor_light</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="swirl_ridgeColor">?android:attr/textColorSecondary</item>
-        <item name="swirl_errorColor">@color/colorAccent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="discreteSeekBarStyle">@style/Widget.DiscreteSeekBar</item>
+        <item name="banner_frame_drawable">@drawable/drawable_frame_dark</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/textcolor_dark</item>
     </style>
 
-    <style name="ThemeDark" parent="AppThemeDark" />
+    <style name="AppThemeParent" parent="AppTheme" />
 
-    <style name="Theme" parent="AppTheme" />
+    <style name="AppThemeParentDark" parent="AppThemeDark" />
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -34,7 +31,7 @@
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/divider</item>
+        <item name="android:background">?android:attr/textColorSecondary</item>
     </style>
 
     <style name="ItemTextAppearance">
@@ -43,10 +40,13 @@
 
     <style name="Base.Widget.AppCompat.CompoundButton.CheckBox.Custom">
         <item name="colorControlNormal">@color/white</item>
-        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlActivated">?attr/colorAccent</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="Base.Widget.AppCompat.EditText.Custom" parent="ThemeDark" />
+    <style name="Swirl">
+        <item name="swirl_errorColor">?attr/colorAccent</item>
+        <item name="swirl_ridgeColor">?android:attr/textColorSecondary</item>
+    </style>
 
 </resources>

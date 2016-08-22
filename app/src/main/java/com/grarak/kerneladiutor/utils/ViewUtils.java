@@ -23,6 +23,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -47,6 +49,37 @@ import java.util.Set;
  * Created by willi on 16.04.16.
  */
 public class ViewUtils {
+
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        int width = drawable.getIntrinsicWidth();
+        width = width > 0 ? width : 1;
+        int height = drawable.getIntrinsicHeight();
+        height = height > 0 ? height : 1;
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
+    public static int getTextSecondaryColor(Context context) {
+        TypedValue value = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.textColorSecondary, value, true);
+        return value.data;
+    }
+
+    public static Drawable getSelectableBackground(Context context) {
+        TypedArray typedArray = context.obtainStyledAttributes(new int[]{R.attr.selectableItemBackground});
+        Drawable drawable = typedArray.getDrawable(0);
+        typedArray.recycle();
+        return drawable;
+    }
 
     public static void showDialog(FragmentManager manager, DialogFragment fragment) {
         FragmentTransaction ft = manager.beginTransaction();
@@ -114,7 +147,7 @@ public class ViewUtils {
                                                       Context context) {
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
-        int padding = (int) context.getResources().getDimension(R.dimen.dialog_edittext_padding);
+        int padding = (int) context.getResources().getDimension(R.dimen.dialog_padding);
         layout.setPadding(padding, padding, padding, padding);
 
         final AppCompatEditText editText = new AppCompatEditText(context);
@@ -175,7 +208,7 @@ public class ViewUtils {
                                                      final OnDialogEditTextListener onDialogEditTextListener, int inputType,
                                                      Context context) {
         LinearLayout layout = new LinearLayout(context);
-        int padding = (int) context.getResources().getDimension(R.dimen.dialog_edittext_padding);
+        int padding = (int) context.getResources().getDimension(R.dimen.dialog_padding);
         layout.setPadding(padding, padding, padding, padding);
 
         final AppCompatEditText editText = new AppCompatEditText(context);
