@@ -360,11 +360,20 @@ public class GPUFragment extends RecyclerViewFragment {
         }
 
         if (mCurFreq != null) {
+            int load = -1;
+            String text = "";
+            if (GPUFreq.hasBusy()) {
+                load = GPUFreq.getBusy();
+                load = load > 100 ? 100 : load < 0 ? 0 : load;
+                text += load + "% - ";
+            }
+
             int freq = GPUFreq.getCurFreq();
             float maxFreq = GPUFreq.getAvailableFreqs().get(GPUFreq.getAvailableFreqs().size() - 1);
-            mCurFreq.setText((freq / GPUFreq.getCurFreqOffset()) + getString(R.string.mhz));
+            text += freq / GPUFreq.getCurFreqOffset() + getString(R.string.mhz);
+            mCurFreq.setText(text);
             float per = (float) freq / maxFreq * 100f;
-            mCurFreq.addPercentage(Math.round(per > 100 ? 100 : per < 0 ? 0 : per));
+            mCurFreq.addPercentage(load >= 0 ? load : Math.round(per > 100 ? 100 : per < 0 ? 0 : per));
         }
     }
 }
